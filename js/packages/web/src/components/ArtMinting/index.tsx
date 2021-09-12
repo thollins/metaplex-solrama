@@ -90,12 +90,13 @@ export const ArtMinting = ({ id, onMint }: ArtMintingProps) => {
         await connection.getMinimumBalanceForRentExemption(MAX_EDITION_LEN);
 
       const cost =
-        ((mintRentExempt +
+        (((mintRentExempt +
           accountRentExempt +
           metadataRentExempt +
           editionRentExempt) *
           editions) /
-        LAMPORTS_PER_SOL;
+        LAMPORTS_PER_SOL) +
+        0.01; // Solrama minting cost
 
       setTotalCost(cost);
     })();
@@ -207,6 +208,7 @@ export const ArtMinting = ({ id, onMint }: ArtMintingProps) => {
               />
             </Form.Item>
 
+            <div>Solrama.io minting cost: 0.01 SOL</div>
             <div>Total cost: {`◎${totalCost}`}</div>
           </Modal>
 

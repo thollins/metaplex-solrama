@@ -1030,7 +1030,7 @@ const LaunchStep = (props: {
         const additionalSol = (metadataRent + mintRent) / LAMPORT_MULTIPLIER;
 
         // TODO: add fees based on number of transactions and signers
-        setCost(sol + additionalSol);
+        setCost(sol + additionalSol); // TAH might be another place 
       });
   }, [files, metadata, setCost]);
 
@@ -1064,6 +1064,8 @@ const LaunchStep = (props: {
             precision={2}
             suffix="%"
           />
+          <div>Solrama.io minting cost: 0.01 SOL</div>
+          
           {cost ? (
             <AmountLabel title="Cost to Create" amount={cost.toFixed(5)} />
           ) : (
