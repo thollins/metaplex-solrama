@@ -1,9 +1,9 @@
 <p align="center">
   <a href="https://metaplex.com">
-    <img alt="Metaplex Solrama.io" src="https://metaplex.com/meta.svg" width="250" />
+    <img alt="Metaplex" src="https://metaplex.com/meta.svg" width="250" />
   </a>
 </p>
-
+<H1> S O L R A M A . I O </H1>
 Metaplex is a protocol built on top of Solana that allows:
 
 - **Creating/Minting** non-fungible tokens;
