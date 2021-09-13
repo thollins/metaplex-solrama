@@ -32,6 +32,7 @@ import {
   MetaplexOverlay,
   MetadataFile,
   StringPublicKey,
+  useStore,
 } from '@oyster/common';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { getAssetCostToStore, LAMPORT_MULTIPLIER } from '../../utils/assets';
@@ -46,6 +47,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 const { Step } = Steps;
 const { Dragger } = Upload;
 const { Text } = Typography;
+const { storeAddress, setStoreForOwner, isConfigured, solramaCostToMint } = useStore();
 
 export const ArtCreateView = () => {
   const connection = useConnection();
@@ -1030,7 +1032,7 @@ const LaunchStep = (props: {
         const additionalSol = (metadataRent + mintRent) / LAMPORT_MULTIPLIER;
 
         // TODO: add fees based on number of transactions and signers
-        setCost(sol + additionalSol + 0.01); // TAH might be another place 
+        setCost(sol + additionalSol + solramaCostToMint); // TAH might be another place 
       });
   }, [files, metadata, setCost]);
 

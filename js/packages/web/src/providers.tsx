@@ -9,6 +9,7 @@ import { ConfettiProvider } from './components/Confetti';
 import { AppLayout } from './components/Layout';
 import { MetaProvider } from './contexts/meta';
 import { CoingeckoProvider } from './contexts/coingecko';
+import { processAccountsIntoAuctionView } from './hooks';
 
 export const Providers: FC = ({ children }) => {
   return (
@@ -19,6 +20,7 @@ export const Providers: FC = ({ children }) => {
               <StoreProvider
                 ownerAddress={process.env.NEXT_PUBLIC_STORE_OWNER_ADDRESS}
                 storeAddress={process.env.NEXT_PUBLIC_STORE_ADDRESS}
+                solramaCostToMint={process.env.NEXT_PUBLIC_STORE_OWNER_ADDRESS}
               >
                 <MetaProvider>
                   <ConfettiProvider>

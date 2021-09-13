@@ -18,6 +18,8 @@ interface StoreConfig {
   isReady: boolean;
   // recalculate store address for specified owner address
   setStoreForOwner: (ownerAddress?: string) => Promise<string | undefined>;
+  // solrama.io cost to mint
+  solramaCostToMint?: number;
 }
 
 export const StoreContext = createContext<StoreConfig>(null!);
@@ -25,12 +27,14 @@ export const StoreContext = createContext<StoreConfig>(null!);
 export const StoreProvider: FC<{
   ownerAddress?: string;
   storeAddress?: string;
-}> = ({ children, ownerAddress, storeAddress }) => {
+  solramaCostToMint?: number;
+}> = ({ children, ownerAddress, storeAddress, solramaCostToMint }) => {
   const searchParams = useQuerySearch();
   const ownerAddressFromQuery = searchParams.get('store');
 
   const initOwnerAddress = ownerAddressFromQuery || ownerAddress;
   const initStoreAddress = !ownerAddressFromQuery ? storeAddress : undefined;
+  const initSolramaCostToMint = !solramaCostToMint ? 0.01 : solramaCostToMint;
   const isConfigured = Boolean(initStoreAddress || initOwnerAddress);
 
   const [store, setStore] = useState<
@@ -38,6 +42,7 @@ export const StoreProvider: FC<{
   >({
     storeAddress: initStoreAddress,
     isReady: Boolean(!initOwnerAddress || initStoreAddress),
+    solramaCostToMint: initSolramaCostToMint,
   });
 
   const setStoreForOwner = useMemo(
@@ -52,17 +57,17 @@ export const StoreProvider: FC<{
   );
 
   useEffect(() => {
-    console.log(`STORE_OWNER_ADDRESS: ${initOwnerAddress}`);
+    console.log(`STORE_OWNER_ADDRESS: ${initOwnerAddress} Cost to mint ${initSolramaCostToMint}`);
     if (initOwnerAddress && !initStoreAddress) {
       setStoreForOwner(initOwnerAddress);
     } else {
       setProgramIds(initStoreAddress); // fallback
-      console.log(`CUSTOM STORE FROM ENV: ${initStoreAddress}`);
+      console.log(`CUSTOM STORE FROM ENV: ${initStoreAddress} Cost to mint ${initSolramaCostToMint}`);
     }
   }, [initOwnerAddress]);
 
   return (
-    <StoreContext.Provider value={{ ...store, setStoreForOwner, isConfigured }}>
+    <StoreContext.Provider value={{ ...store, setStoreForOwner, isConfigured, solramaCostToMint }}>
       {children}
     </StoreContext.Provider>
   );
