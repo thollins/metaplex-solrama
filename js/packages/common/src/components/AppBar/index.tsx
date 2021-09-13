@@ -41,6 +41,7 @@ export const AppBar = (props: {
           icon={<SettingOutlined />}
         />
       </Popover>
+      <div>Ver 0.01</div>
       {props.right}
     </div>
   );
