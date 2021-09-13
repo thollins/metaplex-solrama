@@ -208,7 +208,6 @@ export const ArtMinting = ({ id, onMint }: ArtMintingProps) => {
               />
             </Form.Item>
 
-            <div>Solrama.io minting cost: 0.01 SOL</div>
             <div>Total cost: {`◎${totalCost}`}</div>
           </Modal>
 
