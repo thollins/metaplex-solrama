@@ -34,7 +34,7 @@ module.exports = withPlugins(plugins, {
     NEXT_PUBLIC_STORE_ADDRESS: process.env.STORE_ADDRESS,
     NEXT_PUBLIC_BIG_STORE: process.env.REACT_APP_BIG_STORE,
     NEXT_PUBLIC_CLIENT_ID: process.env.REACT_APP_CLIENT_ID,
-    NEXT_SOLRAMA_IO_COST_TO_MINT: process.env.SOLRAMA_IO_COST_TO_MINT,
+    NEXT_SOLRAMA_IO_COST_TO_MINT: process.env.SOLRAMA_IO_COST_TO_MINTS,
   },
   async rewrites() {
     return [

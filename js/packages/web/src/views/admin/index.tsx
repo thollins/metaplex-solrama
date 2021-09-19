@@ -45,7 +45,7 @@ export const AdminView = () => {
     () => (wallet.wallet ? wallet.connect().catch() : setVisible(true)),
     [wallet.wallet, wallet.connect, setVisible],
   );
-  const { storeAddress, setStoreForOwner, isConfigured, solramaCostToMint } = useStore();
+  const { storeAddress, setStoreForOwner, isConfigured } = useStore();
 
   useEffect(() => {
     if (!store && !storeAddress && wallet.publicKey) {

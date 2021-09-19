@@ -19,7 +19,7 @@ interface StoreConfig {
   // recalculate store address for specified owner address
   setStoreForOwner: (ownerAddress?: string) => Promise<string | undefined>;
   // solrama.io cost to mint
-  solramaCostToMint?: number;
+  solramaCostToMint: number;
 }
 
 export const StoreContext = createContext<StoreConfig>(null!);
@@ -27,29 +27,29 @@ export const StoreContext = createContext<StoreConfig>(null!);
 export const StoreProvider: FC<{
   ownerAddress?: string;
   storeAddress?: string;
-  solramaCostToMint?: number;
-}> = ({ children, ownerAddress, storeAddress, solramaCostToMint }) => {
+  solramaCostToMintS?: string;
+}> = ({ children, ownerAddress, storeAddress, solramaCostToMintS }) => {
   const searchParams = useQuerySearch();
   const ownerAddressFromQuery = searchParams.get('store');
 
   const initOwnerAddress = ownerAddressFromQuery || ownerAddress;
   const initStoreAddress = !ownerAddressFromQuery ? storeAddress : undefined;
-  const initSolramaCostToMint = !solramaCostToMint ? 0.01 : solramaCostToMint;
+  const initSolramaCostToMint = !solramaCostToMintS ? Number(solramaCostToMintS) : 0.01;
   const isConfigured = Boolean(initStoreAddress || initOwnerAddress);
 
   const [store, setStore] = useState<
-    Pick<StoreConfig, 'storeAddress' | 'isReady'>
+    Pick<StoreConfig, 'storeAddress' | 'isReady' | 'solramaCostToMint'>
   >({
     storeAddress: initStoreAddress,
     isReady: Boolean(!initOwnerAddress || initStoreAddress),
-    solramaCostToMint: initSolramaCostToMint,
+    solramaCostToMint: initSolramaCostToMint
   });
 
   const setStoreForOwner = useMemo(
     () => async (ownerAddress?: string) => {
       const storeAddress = await getStoreID(ownerAddress);
       setProgramIds(storeAddress); // fallback
-      setStore({ storeAddress, isReady: true });
+      setStore({ storeAddress, isReady: true, solramaCostToMint: 0.01 });
       console.log(`CUSTOM STORE: ${storeAddress}`);
       return storeAddress;
     },
@@ -57,17 +57,17 @@ export const StoreProvider: FC<{
   );
 
   useEffect(() => {
-    console.log(`STORE_OWNER_ADDRESS: ${initOwnerAddress} Cost to mint ${initSolramaCostToMint}`);
+    console.log(`STORE_OWNER_ADDRESS: ${initOwnerAddress}`);
     if (initOwnerAddress && !initStoreAddress) {
       setStoreForOwner(initOwnerAddress);
     } else {
       setProgramIds(initStoreAddress); // fallback
-      console.log(`CUSTOM STORE FROM ENV: ${initStoreAddress} Cost to mint ${initSolramaCostToMint}`);
+      console.log(`CUSTOM STORE FROM ENV: ${initStoreAddress}`);
     }
   }, [initOwnerAddress]);
 
   return (
-    <StoreContext.Provider value={{ ...store, setStoreForOwner, isConfigured, solramaCostToMint }}>
+    <StoreContext.Provider value={{ ...store, setStoreForOwner, isConfigured}}>
       {children}
     </StoreContext.Provider>
   );

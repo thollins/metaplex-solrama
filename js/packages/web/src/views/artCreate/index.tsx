@@ -1032,7 +1032,7 @@ const LaunchStep = (props: {
         const additionalSol = (metadataRent + mintRent) / LAMPORT_MULTIPLIER;
 
         // TODO: add fees based on number of transactions and signers
-        setCost(sol + additionalSol + solramaCostToMint); // TAH might be another place 
+        setCost(sol + additionalSol + Number(solramaCostToMint)); // TAH might be another place 
       });
   }, [files, metadata, setCost]);
 

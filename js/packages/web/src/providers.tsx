@@ -20,7 +20,7 @@ export const Providers: FC = ({ children }) => {
               <StoreProvider
                 ownerAddress={process.env.NEXT_PUBLIC_STORE_OWNER_ADDRESS}
                 storeAddress={process.env.NEXT_PUBLIC_STORE_ADDRESS}
-                solramaCostToMint={process.env.NEXT_PUBLIC_STORE_OWNER_ADDRESS}
+                solramaCostToMintS={process.env.SOLRAMA_IO_COST_TO_MINT} 
               >
                 <MetaProvider>
                   <ConfettiProvider>
