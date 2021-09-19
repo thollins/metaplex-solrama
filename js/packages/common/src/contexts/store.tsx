@@ -34,7 +34,7 @@ export const StoreProvider: FC<{
 
   const initOwnerAddress = ownerAddressFromQuery || ownerAddress;
   const initStoreAddress = !ownerAddressFromQuery ? storeAddress : undefined;
-  const initSolramaCostToMint = !solramaCostToMintS ? Number(solramaCostToMintS) : 0.01;
+  const initSolramaCostToMint = !solramaCostToMintS ? Number(solramaCostToMintS) : 0.001;
   const isConfigured = Boolean(initStoreAddress || initOwnerAddress);
 
   const [store, setStore] = useState<
@@ -49,7 +49,7 @@ export const StoreProvider: FC<{
     () => async (ownerAddress?: string) => {
       const storeAddress = await getStoreID(ownerAddress);
       setProgramIds(storeAddress); // fallback
-      setStore({ storeAddress, isReady: true, solramaCostToMint: 0.01 });
+      setStore({ storeAddress, isReady: true, solramaCostToMint: 0.001 });
       console.log(`CUSTOM STORE: ${storeAddress}`);
       return storeAddress;
     },
