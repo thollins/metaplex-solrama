@@ -20,7 +20,8 @@ export const Providers: FC = ({ children }) => {
               <StoreProvider
                 ownerAddress={process.env.NEXT_PUBLIC_STORE_OWNER_ADDRESS}
                 storeAddress={process.env.NEXT_PUBLIC_STORE_ADDRESS}
-                solramaCostToMintS={process.env.SOLRAMA_IO_COST_TO_MINT} 
+                //Converting to number here so we can use the same variable throughout. Renamed to NEXT_.. so it is similar to others
+                solramaCostToMint={Number(process.env.NEXT_SOLRAMA_IO_COST_TO_MINT)}
               >
                 <MetaProvider>
                   <ConfettiProvider>

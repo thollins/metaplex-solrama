@@ -27,14 +27,14 @@ export const StoreContext = createContext<StoreConfig>(null!);
 export const StoreProvider: FC<{
   ownerAddress?: string;
   storeAddress?: string;
-  solramaCostToMintS?: string;
-}> = ({ children, ownerAddress, storeAddress, solramaCostToMintS }) => {
+  solramaCostToMint: number; //Removed ? so that we never have undefined number
+}> = ({ children, ownerAddress, storeAddress, solramaCostToMint }) => {
   const searchParams = useQuerySearch();
   const ownerAddressFromQuery = searchParams.get('store');
 
   const initOwnerAddress = ownerAddressFromQuery || ownerAddress;
   const initStoreAddress = !ownerAddressFromQuery ? storeAddress : undefined;
-  const initSolramaCostToMint = !solramaCostToMintS ? Number(solramaCostToMintS) : 0.001;
+  const initSolramaCostToMint = !solramaCostToMint ? solramaCostToMint : 0.001;
   const isConfigured = Boolean(initStoreAddress || initOwnerAddress);
 
   const [store, setStore] = useState<
@@ -49,7 +49,7 @@ export const StoreProvider: FC<{
     () => async (ownerAddress?: string) => {
       const storeAddress = await getStoreID(ownerAddress);
       setProgramIds(storeAddress); // fallback
-      setStore({ storeAddress, isReady: true, solramaCostToMint: 0.001 });
+      setStore({ storeAddress, isReady: true, solramaCostToMint });
       console.log(`CUSTOM STORE: ${storeAddress}`);
       return storeAddress;
     },
