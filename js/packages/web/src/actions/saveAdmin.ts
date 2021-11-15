@@ -26,6 +26,7 @@ export async function saveAdmin(
   const storeSigners: Keypair[] = [];
   const storeInstructions: TransactionInstruction[] = [];
 
+  // TAH this sets all the keys needed for the transaction
   await setStore(
     isPublic,
     wallet.publicKey.toBase58(),
@@ -64,7 +65,7 @@ export async function saveAdmin(
         wallet,
         instructions,
         signers,
-        SequenceType.StopOnFailure,
-        'single',
+        SequenceType.StopOnFailure, // TAH this is what is needed when we send ours
+        'single', // TAH this has to be bad
       );
 }

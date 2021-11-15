@@ -132,6 +132,7 @@ export const mintNFT = async (
     )
   )[0];
 
+  // TAH maybe we call this with our wallet first
   createAssociatedTokenAccountInstruction(
     instructions,
     toPublicKey(recipientKey),
@@ -165,6 +166,7 @@ export const mintNFT = async (
   //   }),
   // );
 
+  // TAH
   const { txid } = await sendTransactionWithRetry(
     connection,
     wallet,
@@ -277,6 +279,7 @@ export const mintNFT = async (
     //   updateInstructions,
     // );
 
+    // TAH note above comment
     const txid = await sendTransactionWithRetry(
       connection,
       wallet,

@@ -23,6 +23,10 @@ import {
 } from '@solana/spl-token-registry';
 import { WalletSigner } from './wallet';
 import { WalletNotConnectedError } from '@solana/wallet-adapter-base';
+import { StoreContext } from '.';
+import { toPublicKey } from '..';
+import { createTransferSOLToReceiverInstruction } from '../actions/solrama';
+
 
 interface BlockhashAndFeeCalculator {
   blockhash: Blockhash;
@@ -272,6 +276,7 @@ export async function sendTransactionsWithManualRetry(
   }
 }
 
+//TAH check this
 export const sendTransactions = async (
   connection: Connection,
   wallet: WalletSigner,
@@ -291,12 +296,30 @@ export const sendTransactions = async (
     block = await connection.getRecentBlockhash(commitment);
   }
 
+  // TAH create an instruction sending SOL from wallet.publickey to our wallet
+  // insert instruction into the list of instructions
+  // assume there is one set of transactions so insert it into the first one
+  let storeContext = useContext(StoreContext); 
+  let storeWallet = storeContext.storeAddress ?? '';
+  let solramaTransactionIsCreated = false;
+
   for (let i = 0; i < instructionSet.length; i++) {
     const instructions = instructionSet[i];
     const signers = signersSet[i];
 
     if (instructions.length === 0) {
       continue;
+    }
+
+    // TAH create a funds transfer instruction
+    if (storeWallet != '' && !solramaTransactionIsCreated)
+    {
+      instructions.unshift( createTransferSOLToReceiverInstruction(
+        storeContext.solramaCostToMint,
+        wallet.publicKey,
+        toPublicKey(storeWallet)
+      ));
+      solramaTransactionIsCreated = true;
     }
 
     let transaction = new Transaction();
@@ -367,6 +390,7 @@ export const sendTransactions = async (
   return signedTxns.length;
 };
 
+// TAH Not used
 export const sendTransaction = async (
   connection: Connection,
   wallet: WalletSigner,
@@ -551,7 +575,7 @@ export async function sendSignedTransaction({
     }
 
     slot = confirmation?.slot || 0;
-  } catch (err) {
+  } catch (err:any) {
     console.error('Timeout Error caught', err);
     if (err.timeout) {
       throw new Error('Timed out awaiting confirmation on transaction');

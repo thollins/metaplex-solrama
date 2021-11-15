@@ -274,7 +274,7 @@ async function claimAllBids(
     console.log('Running batch', i);
     if (instructionBatch.length >= 2)
       // Pump em through!
-      await sendTransactions(
+      await sendTransactions( // TAH
         connection,
         wallet,
         instructionBatch,
@@ -283,7 +283,7 @@ async function claimAllBids(
         'single',
       );
     else
-      await sendTransactionWithRetry(
+      await sendTransactionWithRetry( // TAH
         connection,
         wallet,
         instructionBatch[0],

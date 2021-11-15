@@ -33,6 +33,7 @@ export async function mintEditionsToWallet(
   let mintEditionIntoWalletSigners: Keypair[] = [];
   let mintEditionIntoWalletInstructions: TransactionInstruction[] = [];
 
+  // TAH this is where to insert our wallet first into the instruction list
   // TODO replace all this with payer account so user doesnt need to click approve several times.
 
   // Overall we have 10 parallel txns.
@@ -56,6 +57,12 @@ export async function mintEditionsToWallet(
       mintEditionIntoWalletSigners = [];
       mintEditionIntoWalletInstructions = [];
     }
+
+    // TAH
+    // signers.push - their wallet signer. maybe use currSignerBatch
+    // instructions.push - their wallet to our wallet
+    // signers.push(who signs the transaction);
+    // instructions.push(their wallet to solrama's wallet);
 
     if (currInstrBatch.length === BATCH_SIZE) {
       signers.push(currSignerBatch);
@@ -85,6 +92,7 @@ export async function mintEditionsToWallet(
     console.log('Running batch', i);
     if (instructionBatch.length >= 2)
       // Pump em through!
+      // TAH replace this with the entire transaction. All at once
       await sendTransactions(
         connection,
         wallet,
@@ -93,7 +101,7 @@ export async function mintEditionsToWallet(
         SequenceType.StopOnFailure,
         'single',
       );
-    else
+    else // TAH
       await sendTransactionWithRetry(
         connection,
         wallet,

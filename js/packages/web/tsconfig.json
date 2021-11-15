@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2019",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -19,6 +19,6 @@
     "jsx": "preserve",
     "typeRoots": ["../../types"]
   },
-  "include": ["src"],
+  "include": ["src", "../common/src/actions/solrama.ts"],
   "exclude": ["node_modules"]
 }
