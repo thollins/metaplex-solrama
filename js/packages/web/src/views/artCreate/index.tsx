@@ -1024,6 +1024,7 @@ const LaunchStep = (props: {
   );
   const files = props.files;
   const metadata = props.attributes;
+  const { solramaCostToMint } = useStore();
   useEffect(() => {
     const rentCall = Promise.all([
       props.connection.getMinimumBalanceForRentExemption(MintLayout.span),
@@ -1048,8 +1049,7 @@ const LaunchStep = (props: {
         const additionalSol = (metadataRent + mintRent) / LAMPORT_MULTIPLIER;
 
         // TODO: add fees based on number of transactions and signers
-        const { solramaCostToMint } = useStore(); //We need to get this here (in the function) otherwise we get hook err
-        setCost(sol + additionalSol + solramaCostToMint!); // TAH might be another place 
+        setCost(sol + additionalSol); // TAH don't add solramaCostToMint to the cost here, do it only for display
       });
   }, [files, metadata, setCost]);
 
@@ -1083,10 +1083,10 @@ const LaunchStep = (props: {
             precision={2}
             suffix="%"
           />
-          <div><p>Solrama.io minting cost: 0.01 SOL</p></div>
+          <div><p>Solrama.io minting cost: {solramaCostToMint} SOL</p></div>
           
           {cost ? (
-            <AmountLabel title="Cost to Create" amount={cost.toFixed(5)} />
+            <AmountLabel title="Cost to Create" amount={(cost + solramaCostToMint).toFixed(5)} />
           ) : (
             <Spin />
           )}

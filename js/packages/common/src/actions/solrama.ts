@@ -1,9 +1,7 @@
 import {
     PublicKey,
     SystemProgram,
-    SYSVAR_RENT_PUBKEY,
-    TransactionInstruction,
-    LAMPORTS_PER_SOL,
+    LAMPORTS_PER_SOL
   } from "@solana/web3.js";
   
   // TAH Create an instruction to transfer SOL from one wallet to another wallet

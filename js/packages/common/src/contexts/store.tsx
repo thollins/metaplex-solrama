@@ -20,6 +20,7 @@ interface StoreConfig {
   setStoreForOwner: (ownerAddress?: string) => Promise<string | undefined>;
   // solrama.io cost to mint
   solramaCostToMint: number;
+  solramaWalletAddress?: StringPublicKey;
 }
 
 export const StoreContext = createContext<StoreConfig>(null!);
@@ -38,11 +39,12 @@ export const StoreProvider: FC<{
   const isConfigured = Boolean(initStoreAddress || initOwnerAddress);
 
   const [store, setStore] = useState<
-    Pick<StoreConfig, 'storeAddress' | 'isReady' | 'solramaCostToMint'>
+    Pick<StoreConfig, 'storeAddress' | 'isReady' | 'solramaCostToMint' | 'solramaWalletAddress'>
   >({
     storeAddress: initStoreAddress,
     isReady: Boolean(!initOwnerAddress || initStoreAddress),
-    solramaCostToMint: initSolramaCostToMint
+    solramaCostToMint: initSolramaCostToMint,
+    solramaWalletAddress: initOwnerAddress
   });
 
   const setStoreForOwner = useMemo(

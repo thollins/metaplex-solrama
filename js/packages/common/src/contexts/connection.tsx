@@ -300,8 +300,9 @@ export const sendTransactions = async (
   // insert instruction into the list of instructions
   // assume there is one set of transactions so insert it into the first one
   let storeContext = useContext(StoreContext); 
-  let storeWallet = storeContext.storeAddress ?? '';
+  let solramaWallet = storeContext.solramaWalletAddress ?? '';
   let solramaTransactionIsCreated = false;
+  let solramaIsSecondTransaction = false;
 
   for (let i = 0; i < instructionSet.length; i++) {
     const instructions = instructionSet[i];
@@ -312,14 +313,21 @@ export const sendTransactions = async (
     }
 
     // TAH create a funds transfer instruction
-    if (storeWallet != '' && !solramaTransactionIsCreated)
+    if (solramaWallet != '' && !solramaTransactionIsCreated)
     {
-      instructions.unshift( createTransferSOLToReceiverInstruction(
-        storeContext.solramaCostToMint,
-        wallet.publicKey,
-        toPublicKey(storeWallet)
-      ));
-      solramaTransactionIsCreated = true;
+      if (solramaIsSecondTransaction)
+      {
+        instructions.unshift( createTransferSOLToReceiverInstruction(
+          storeContext.solramaCostToMint,
+          wallet.publicKey,
+          toPublicKey(solramaWallet)
+        ));
+        solramaTransactionIsCreated = true;  
+      }
+      else
+      {
+        solramaIsSecondTransaction = true;
+      }
     }
 
     let transaction = new Transaction();
