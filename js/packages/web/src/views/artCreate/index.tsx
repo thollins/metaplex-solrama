@@ -439,7 +439,7 @@ const UploadStep = (props: {
           paddingTop: 30,
           marginBottom: 4,
         }}
-        label={<h3>OR use absolute URL to content</h3>}
+        label={<h3>OR use absolute URL to content</h3>} //TAH External URL
         labelAlign="left"
         colon={false}
         validateStatus={customURLErr ? 'error' : 'success'}
@@ -452,20 +452,27 @@ const UploadStep = (props: {
           onChange={ev => setCustomURL(ev.target.value)}
           onFocus={() => setCustomURLErr('')}
           onBlur={() => {
+            console.info("onblur");
             if (!customURL) {
               setCustomURLErr('');
+              console.info("onblur returning customURL exists");
               return;
             }
+            console.info("onblur customURL does not exist");
 
             try {
               // Validate URL and save
               new URL(customURL);
+              console.info("onblur after new URL");
               setCustomURL(customURL);
+              console.info("onblur after setCustomURL");
               setCustomURLErr('');
+
             } catch (e) {
               console.error(e);
               setCustomURLErr('Please enter a valid absolute URL');
             }
+            console.info("onblur done");
           }}
         />
       </Form.Item>

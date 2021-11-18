@@ -63,7 +63,7 @@ const DefaultActions = ({ vertical = false }: { vertical?: boolean }) => {
       <Link to={`/artists`}>
         <Button className="app-btn">Creators</Button>
       </Link>
-      <p style={{color: 'white'}}>Version 0.0.1</p>
+      <p style={{color: 'white'}}>Version 0.0.2</p>
     </div>
   );
 };
